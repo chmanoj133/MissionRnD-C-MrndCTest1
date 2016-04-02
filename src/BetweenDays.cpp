@@ -130,6 +130,14 @@ int between_days(struct node *date1head, struct node *date2head)
 				ans = ans + 1;
 		}
 
+		if (y1 % 4 == 0 && m1 <= 2)
+		{
+			if (m1 < 2)
+				ans = ans + 1;
+			else if (m1 == 2 && d1 == 29)
+				ans = ans + 1;
+		}
+
 		ans = ans + 30 * (12 - m1);
 		for (i = m1; i <= 12; i++)
 		{
