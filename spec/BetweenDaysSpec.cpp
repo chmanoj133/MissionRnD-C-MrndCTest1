@@ -61,7 +61,7 @@ namespace spec
 		[TestMethod, Timeout(2000)]
 		void Sample2_BetweenDays()
 		{
-			int dates[2][8] = { { 0, 2, 0, 4, 2, 0, 1, 5 }, { 0, 2, 0, 4, 2, 0, 1, 4 } };
+			int dates[2][8] = { { 0, 2, 0, 4, 2, 0, 1, 6 }, { 0, 4, 0, 4, 2, 0, 1, 6 } };
 
 			struct node *date1head = NULL, *date2head = NULL;
 			for (int i = 7; i >= 0; i--){
