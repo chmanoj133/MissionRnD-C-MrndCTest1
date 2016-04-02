@@ -33,5 +33,72 @@ Difficulty : Medium
 
 int * find_sequences(int *arr, int len){
 	//Return final array which has 6indexes [AP1_S,AP1_E,AP2_S,AP2_E,GP1_S,GP2_E]
-	return NULL;
+	int *ans = (int*)calloc(6, sizeof(int));
+	if (arr == NULL || len < 0)
+		return NULL;
+	int i, diff, flag = 0;
+	
+	for (i = 0; i < len; i++)
+	{
+		if (flag == 0 && i + 2 < len)
+			if (arr[i + 1] - arr[i] == arr[i + 2] - arr[i + 1])
+			{
+				flag = 1;
+				ans[0] = i;
+				diff = arr[i + 1] - arr[i];
+			}
+		if (flag == 1)
+		{
+			if (arr[i + 1] - arr[i] != diff)
+			{
+				ans[1] = i;
+				break;
+			}
+		}
+	}
+	flag = 0;
+
+	for (i = ans[1]; i < len; i++)
+	{
+		if (flag == 0 && i + 2 < len)
+			if (arr[i + 1] - arr[i] == arr[i + 2] - arr[i + 1])
+			{
+				flag = 1;
+				ans[2] = i;
+				diff = arr[i + 1] - arr[i];
+			}
+		if (flag == 1)
+		{
+			if (arr[i + 1] - arr[i] != diff)
+			{
+				ans[3] = i;
+				break;
+			}
+		}
+	}
+	flag = 0;
+
+	for (i = 0; i < len; i++)
+	{
+		if (flag == 0 && i + 2 < len)
+		{
+			diff = arr[i + 1] / arr[i];
+			if (arr[i + 1] == arr[i] * diff && arr[i + 2] == arr[i]*diff*diff)
+			{
+				flag = 1;
+				ans[4] = i;
+				
+			}
+		}
+		if (flag == 1)
+		{
+			if (arr[i + 1] / arr[i] != diff)
+			{
+				ans[5] = i;
+				break;
+			}
+		}
+	}
+
+	return ans;
 }

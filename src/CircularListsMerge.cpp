@@ -20,7 +20,7 @@ pointing towards the first node.
 Note : Return -1 for Invalid Inputs like NULL;
 
 Input : head1 and head2 are Addresses of Two Circular Linked Lists heads .
-Output :Return Length of New SLL .Modify the head1 value, such that it now points to 
+Output :Return Length of New SLL .Modify the head1 value, such that it now points to
 Merged Sorted Circular SLL .
 
 Difficulty : Medium
@@ -32,7 +32,133 @@ struct node{
 	int data;
 	struct node *next;
 };
-int merge_circularlists(struct node **head1, struct node **head2){
+
+int len_CLL(struct node *head)
+{
+	if (head == NULL)
+		return 0;
+
+	int *first_node_data = &head->data, j = 1;
+	struct node *i = head->next;
+
+	while (1)
+	{
+		if (&i->data == first_node_data)
+			break;
+		j++;
+		i = i->next;
+	}
+
+	return j;
+}
+
+struct node *merge(struct node *head1, struct node *head2)
+{
+	struct node *i = head1, *j = head2, *temp, *first, *temp2;
+
+	if (i == NULL)
+		return j;
+	else if (j == NULL)
+		return i;
+	else
+	{
+		if (i->data > j->data)
+		{
+			first = j;
+			j = i;
+			i = first;
+		}
+
+		else
+			first = i;
+
+		while (1)
+		{
+			if (i->next->data > j->data)
+			{
+				temp = i->next;
+				i->next = j;
+				temp2 = j->next;
+				j->next = temp;
+				i = j;
+				j = temp2;
+			}
+			else
+				i = i->next;
+
+			if (i->next == NULL)
+			{
+				i->next = j;
+				break;
+			}
+
+			if (j == NULL)
+				break;
+		}
+
+		return first;
+	}
+}
+
+int merge_circularlists(struct node **head1, struct node **head2)
+{
 	//Returns Length of merged Sorted circular SLL and also points *head1 to final SLL .
-	return -1;
+	if (*head1 == NULL && *head2 == NULL)
+		return -1;
+
+	struct node *i = *head1, *j = *head2, *ans = *head1;
+	int *first_node_data;
+
+	if (i == NULL)
+	{
+		*head1 = *head2;
+		return len_CLL(*head1);
+	}
+
+	if (j == NULL)
+	{
+		return len_CLL(*head2);
+	}
+
+	first_node_data = &i->data;
+
+	while (1)
+	{
+		if (&i->next->data == first_node_data)
+		{
+			i->next = NULL;
+			break;
+		}
+		i = i->next;
+	}
+
+	first_node_data = &j->data;
+
+	while (1)
+	{
+		if (&j->next->data == first_node_data)
+		{
+			j->next = NULL;
+			break;
+		}
+		j = j->next;
+	}
+
+	ans = merge(*head1, *head2);
+
+	i = ans;
+
+	while (1)
+	{
+		if (i->next == NULL)
+		{
+			i->next = ans;
+			break;
+		}
+		i = i->next;
+	}
+
+	*head1 = ans;
+
+	return len_CLL(*head1);
 }
