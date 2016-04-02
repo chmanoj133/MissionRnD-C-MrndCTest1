@@ -67,6 +67,14 @@ int between_days(struct node *date1head, struct node *date2head)
 			else if (m1 == 2 && d1 == 29)
 				ans = ans + 1;
 		}
+
+		if (y2 % 4 == 0 && m2 <= 2)
+		{
+			if (m2 < 2)
+				ans = ans + 1;
+			else if (m2 == 2 && d2 == 29)
+				ans = ans + 1;
+		}
 		
 
 		ans = ans + 30 * (12 - m2);
@@ -107,6 +115,20 @@ int between_days(struct node *date1head, struct node *date2head)
 	else if (y1 < y2)
 	{
 		ans = ans + 365 * (y2 - y1 - 1) + (y2 - y1 - 1) / 4;
+
+		for (i = y2 + 1; i < y1; i++)
+		{
+			if (i % 4 == 0)
+				ans = ans + 1;
+		}
+
+		if (y2 % 4 == 0 && m2 >= 2)
+		{
+			if (m2 > 2)
+				ans = ans + 1;
+			else if (m2 == 2 && d2 == 29)
+				ans = ans + 1;
+		}
 
 		ans = ans + 30 * (12 - m1);
 		for (i = m1; i <= 12; i++)
