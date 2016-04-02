@@ -29,6 +29,111 @@ struct node{
 };
 
 
-int between_days(struct node *date1head, struct node *date2head){
-	return -1;
+int between_days(struct node *date1head, struct node *date2head)
+{
+	int d1, d2, m1, m2, y1, y2;
+	int ans = 0;
+	int i, temp;
+
+	d1 = date1head->data * 10 + date1head->next->data;
+	date1head = date1head->next->next;
+	m1 = date1head->data * 10 + date1head->next->data;
+	date1head = date1head->next->next;
+	y1 = date1head->data * 1000 + date1head->next->data * 100 + date1head->next->next->data * 10 + date1head->next->next->next->data;
+
+	d2 = date2head->data * 10 + date2head->next->data;
+	date2head = date2head->next->next;
+	m2 = date2head->data * 10 + date2head->next->data;
+	date2head = date2head->next->next;
+	y2 = date2head->data * 1000 + date2head->next->data * 100 + date2head->next->next->data * 10 + date2head->next->next->next->data;
+
+	if (y1 > y2)
+	{
+		ans = ans + 365 * (y1 - y2 - 1) + (y1 - y2 - 1) / 4;
+
+		ans = ans + 30 * (12 - m2);
+		for (i = m2; i <= 12; i++)
+		{
+			if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12)
+				ans = ans + 1;
+
+			if (i == 2)
+				ans = ans - 2;
+		}
+
+		ans = ans + 30 * (m1 - 1);
+		for (i = 1; i <= m1; i++)
+		{
+			ans = ans + 30;
+
+			if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12)
+				ans = ans + 1;
+			if (i == 2)
+				ans = ans - 2;
+		}
+
+		i = m2;
+
+		if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12)
+			ans = ans + 31 - d2;
+
+		else if (i == 2)
+			ans = ans + 28 - d2;
+
+		else
+			ans = ans + 30 - d2;
+
+		ans = ans + d1 - 1;
+	}
+
+	else if (y1 < y2)
+	{
+		ans = ans + 365 * (y2 - y1 - 1) + (y2 - y1 - 1) / 4;
+
+		ans = ans + 30 * (12 - m1);
+		for (i = m1; i <= 12; i++)
+		{
+			if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12)
+				ans = ans + 1;
+
+			if (i == 2)
+				ans = ans - 2;
+		}
+
+		ans = ans + 30 * (m2 - 1);
+
+		for (i = 1; i <= m2; i++)
+		{
+			ans = ans + 30;
+
+			if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12)
+				ans = ans + 1;
+			if (i == 2)
+				ans = ans - 2;
+		}
+
+		i = m1;
+
+		if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12)
+			ans = ans + 31 - d1;
+
+		else if (i == 2)
+			ans = ans + 28 - d1;
+
+		else
+			ans = ans + 30 - d1;
+
+		ans = ans + d2 - 1;
+	}
+	else
+	{
+		if (m1 > m2)
+		{
+			temp = m1;
+			m1 = m2;
+			m2 = temp;
+		}
+	}
+
+	return ans;
 }
